@@ -2,51 +2,90 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Unsubscribe</title>
+  <title>Carhartt | Unsubscribe</title>
 
   <style>
+    :root {
+      --carhartt-brown: #A36B00;
+      --carhartt-brown-dark: #8d5b00;
+      --carhartt-black: #121212;
+      --light-bg: #f5f1ea;
+      --success-bg: #e8f5e9;
+      --success-text: #256029;
+      --error-bg: #fdecea;
+      --error-text: #b71c1c;
+    }
+
     body {
+      margin: 0;
       font-family: "Helvetica Neue", Arial, sans-serif;
-      background-color: #f2f2f2;
-      padding: 40px;
+      background-color: var(--light-bg);
       color: #333;
     }
 
+    /* HERO IMAGE */
+    .hero {
+      width: 100%;
+      height: 260px;
+      background-image: url('https://i.imgur.com/yVngx9e.jpeg'); /* replace with any Carhartt photo */
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-title {
+      background: rgba(0,0,0,0.55);
+      padding: 14px 28px;
+      border-radius: 6px;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    /* CONTAINER */
     .container {
-      max-width: 480px;
+      max-width: 540px;
       background: #fff;
-      padding: 30px;
-      margin: auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-      border-left: 5px solid #a36b00; /* Carhartt golden brown */
+      padding: 35px;
+      margin: 40px auto;
+      border-radius: 10px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+      border-left: 6px solid var(--carhartt-brown);
     }
 
     h2 {
-      color: #a36b00;
-      margin-bottom: 10px;
-      font-size: 24px;
+      color: var(--carhartt-brown);
+      margin-bottom: 12px;
+      font-size: 26px;
     }
 
     p {
       font-size: 15px;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
+    /* BUTTON */
     button {
-      padding: 14px 22px;
-      background-color: #a36b00;
+      padding: 15px 24px;
+      background-color: var(--carhartt-brown);
       border: none;
       color: white;
       font-size: 16px;
       border-radius: 6px;
       cursor: pointer;
       width: 100%;
-      margin-top: 20px;
+      margin-top: 25px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      transition: 0.2s ease-in-out;
     }
 
     button:hover {
-      background-color: #8d5b00;
+      background-color: var(--carhartt-brown-dark);
     }
 
     button:disabled {
@@ -54,33 +93,39 @@
       cursor: not-allowed;
     }
 
+    /* RESULT BOX */
     #result {
-      margin-top: 20px;
+      margin-top: 25px;
       font-size: 15px;
       font-weight: bold;
-      padding: 12px;
-      border-radius: 6px;
+      padding: 14px;
+      border-radius: 8px;
       display: none;
     }
 
     .success {
-      background-color: #e8f5e9;
-      color: #256029;
+      background-color: var(--success-bg);
+      color: var(--success-text);
       border: 1px solid #7ac27d;
     }
 
     .error {
-      background-color: #fdecea;
-      color: #b71c1c;
+      background-color: var(--error-bg);
+      color: var(--error-text);
       border: 1px solid #f5c6c5;
     }
   </style>
 </head>
 <body>
 
+<!-- HERO IMAGE -->
+<div class="hero">
+  <div class="hero-title">Email Preferences</div>
+</div>
+
 <div class="container">
-  <h2>Email Preferences</h2>
-  <p>If you no longer wish to receive emails from us, you can unsubscribe below.</p>
+  <h2>Unsubscribe</h2>
+  <p>If you no longer wish to receive email communications from Carhartt, you can unsubscribe below.</p>
 
   <button id="unsubscribeBtn">Unsubscribe</button>
 
@@ -114,16 +159,16 @@
   function showSuccess(message) {
     resultBox.style.display = "block";
     resultBox.className = "success";
-    resultBox.innerText = message;
+    resultBox.innerHTML = message;
   }
 
   // ---------------------------------------
-  // UNSUBSCRIBE CALL
+  // UNSUBSCRIBE REQUEST
   // ---------------------------------------
   button.addEventListener("click", async () => {
     try {
       let response = await fetch(
-        "https://YOURDOMAIN.force.com/services/apexrest/unsubscribe",
+        "https://YOUR-SF-DOMAIN.force.com/services/apexrest/unsubscribe",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
