@@ -1,87 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Unsubscribe</title>
   <style>
     body {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
       padding: 40px;
-      color: #333;
-    }
-    .container {
-      max-width: 480px;
-      background: #fff;
-      padding: 30px;
+      max-width: 600px;
       margin: auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-      border-left: 5px solid #a36b00; /* Carhartt golden brown */
+      text-align: center;
     }
-    h2 {
-      color: #a36b00;
-      margin-bottom: 10px;
-    }
+
     button {
-      padding: 14px 22px;
-      background-color: #a36b00;
-      border: none;
-      color: white;
+      padding: 12px 22px;
       font-size: 16px;
-      border-radius: 6px;
+      border: none;
+      background-color: #000;
+      color: #fff;
       cursor: pointer;
-      width: 100%;
+      border-radius: 4px;
       margin-top: 20px;
     }
-    button:hover { background-color: #8d5b00; }
-    #result { margin-top: 20px; font-size: 15px; }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <h2>Email Preferences</h2>
-  <p>If you no longer wish to receive emails, you can unsubscribe below.</p>
+  <h2>Manage Your Email Preferences</h2>
+  <p id="introText">
+    Click the button below if you wish to unsubscribe from future communications.
+  </p>
 
   <button id="unsubscribeBtn">Unsubscribe</button>
 
-  <p id="result"></p>
-</div>
+  <p id="result" class="hidden"></p>
 
 <script>
-  // Read params
-  const params = new URLSearchParams(window.location.search);
-  const contactId = params.get("contactId");
-  const token = params.get("token"); // secure HMAC
+  // ------------------------------------
+  // 1. Get ContactId from URL parameters
+  // ------------------------------------
+  const urlParams = new URLSearchParams(window.location.search);
+  const contactId = urlParams.get('cid');
 
-  if (!contactId || !token) {
-    document.getElementById("result").innerText =
-      "Missing unsubscribe parameters. Request cannot be processed.";
+  if (!contactId) {
+    document.getElementById("introText").innerText =
+      "Missing contact information. Please open the link from your email.";
+    document.getElementById("unsubscribeBtn").classList.add("hidden");
   }
 
-  document.getElementById("unsubscribeBtn").addEventListener("click", async () => {
+  // ------------------------------------
+  // 2. Unsubscribe function
+  // ------------------------------------
+  async function unsubscribe() {
+    const resultEl = document.getElementById("result");
+
     try {
-      let response = await fetch("https://YOURDOMAIN.my.salesforce.com/services/apexrest/unsubscribe", {
+
+      // ⚠️ REPLACE THIS URL WITH YOUR SALESFORCE ENDPOINT
+      const endpoint = "https://YOUR-SF-DOMAIN.force.com/services/apexrest/unsubscribe";
+
+      const res = await fetch(endpoint + "?cid=" + contactId, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contactId: contactId,
-          token: token
-        })
+        headers: {
+          "Content-Type": "application/json"
+        }
       });
 
-      if (response.ok) {
-        document.getElementById("result").innerText =
-          "You have been successfully unsubscribed.";
-      } else {
-        document.getElementById("result").innerText =
-          "Error processing unsubscribe request.";
-      }
-    } catch (e) {
-      document.getElementById("result").innerText = "Network error. Try again later.";
+      const text = await res.text();
+
+      resultEl.classList.remove("hidden");
+      resultEl.innerText = "You have been successfully unsubscribed.";
+      document.getElementById("unsubscribeBtn").classList.add("hidden");
+      document.getElementById("introText").innerText = "";
+
+    } catch (error) {
+      resultEl.classList.remove("hidden");
+      resultEl.innerText = "There was an error completing your unsubscribe request.";
     }
-  });
+  }
+
+  document.getElementById("unsubscribeBtn").onclick = unsubscribe;
 </script>
 
 </body>
