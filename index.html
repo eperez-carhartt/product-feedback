@@ -2,84 +2,141 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Unsubscribe</title>
+  <title>Carhartt Communication Preferences</title>
+
+  <!-- Carhartt Colors + Styling -->
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      padding: 40px;
+      background-color: #f8f5ef; /* Carhartt light background */
+      color: #2b2b2b;
+    }
+
+    .hero {
+      width: 100%;
+      height: 260px;
+      background-image: url('https://i.imgur.com/JkZsMeX.jpeg'); /* replace with Carhartt image */
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero h1 {
+      color: white;
+      background: rgba(0,0,0,0.55);
+      padding: 16px 28px;
+      border-radius: 6px;
+      font-size: 28px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .container {
       max-width: 600px;
-      margin: auto;
+      margin: 40px auto;
+      padding: 0 20px;
       text-align: center;
     }
 
+    .message {
+      font-size: 17px;
+      line-height: 1.5;
+      margin-bottom: 30px;
+    }
+
     button {
-      padding: 12px 22px;
+      padding: 14px 26px;
       font-size: 16px;
+      font-weight: bold;
       border: none;
-      background-color: #000;
+      background-color: #121212; /* Carhartt black */
       color: #fff;
       cursor: pointer;
       border-radius: 4px;
-      margin-top: 20px;
+      letter-spacing: 0.5px;
+      transition: 0.2s ease-in-out;
     }
 
-    .hidden {
+    button:hover {
+      background-color: #3b3b3b;
+    }
+
+    .result {
+      margin-top: 25px;
+      padding: 14px 18px;
+      border-radius: 6px;
+      font-weight: bold;
       display: none;
     }
+
+    .success {
+      background-color: #d6f5d6;
+      color: #236423;
+      border: 1px solid #7cd87c;
+    }
+
+    .error {
+      background-color: #f8d7da;
+      color: #842029;
+      border: 1px solid #f5c2c7;
+    }
+
   </style>
 </head>
 <body>
 
-  <h2>Manage Your Email Preferences</h2>
-  <p id="introText">
-    Click the button below if you wish to unsubscribe from future communications.
-  </p>
+  <!-- HERO IMAGE TOP -->
+  <div class="hero">
+    <h1>Manage Your Preferences</h1>
+  </div>
 
-  <button id="unsubscribeBtn">Unsubscribe</button>
+  <div class="container">
+    <p class="message" id="introText">
+      If you wish to unsubscribe from future Carhartt communications, click the button below.
+    </p>
 
-  <p id="result" class="hidden"></p>
+    <button id="unsubscribeBtn">Unsubscribe</button>
+
+    <div id="result" class="result"></div>
+  </div>
 
 <script>
-  // ------------------------------------
-  // 1. Get ContactId from URL parameters
-  // ------------------------------------
-  const urlParams = new URLSearchParams(window.location.search);
-  const contactId = urlParams.get('cid');
+  // Get token from URL
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('token');
 
-  if (!contactId) {
+  if (!token) {
     document.getElementById("introText").innerText =
-      "Missing contact information. Please open the link from your email.";
-    document.getElementById("unsubscribeBtn").classList.add("hidden");
+      "We could not identify your subscription. Please open the link directly from your email.";
+    document.getElementById("unsubscribeBtn").style.display = "none";
   }
 
-  // ------------------------------------
-  // 2. Unsubscribe function
-  // ------------------------------------
   async function unsubscribe() {
-    const resultEl = document.getElementById("result");
+    const resultBox = document.getElementById("result");
 
     try {
-
-      // ⚠️ REPLACE THIS URL WITH YOUR SALESFORCE ENDPOINT
+      // ⚠️ Replace with your Experience Cloud REST endpoint
       const endpoint = "https://YOUR-SF-DOMAIN.force.com/services/apexrest/unsubscribe";
 
-      const res = await fetch(endpoint + "?cid=" + contactId, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        }
+      const response = await fetch(endpoint + "?token=" + token, {
+        method: "POST"
       });
 
-      const text = await res.text();
-
-      resultEl.classList.remove("hidden");
-      resultEl.innerText = "You have been successfully unsubscribed.";
-      document.getElementById("unsubscribeBtn").classList.add("hidden");
+      // Show success message
+      resultBox.style.display = "block";
+      resultBox.className = "result success";
+      resultBox.innerText = "You have been successfully unsubscribed.";
+      document.getElementById("unsubscribeBtn").style.display = "none";
       document.getElementById("introText").innerText = "";
-
-    } catch (error) {
-      resultEl.classList.remove("hidden");
-      resultEl.innerText = "There was an error completing your unsubscribe request.";
+    } 
+    catch (error) {
+      resultBox.style.display = "block";
+      resultBox.className = "result error";
+      resultBox.innerText = "There was an error processing your unsubscribe request.";
     }
   }
 
