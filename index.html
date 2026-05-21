@@ -1,192 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Carhartt | Unsubscribe</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <style>
-    :root {
-      --carhartt-brown: #A36B00;
-      --carhartt-brown-dark: #8d5b00;
-      --carhartt-black: #121212;
-      --light-bg: #f5f1ea;
-      --success-bg: #e8f5e9;
-      --success-text: #256029;
-      --error-bg: #fdecea;
-      --error-text: #b71c1c;
+<title>Carhartt SF Feature Testing Portal</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#1e1e1e;
+    color:#f5f5f5;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background:
+        linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)),
+        url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1600&auto=format&fit=crop');
+    background-size:cover;
+    background-position:center;
+    z-index:-2;
+}
+
+body::after{
+    content:'';
+    position:fixed;
+    inset:0;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,184,28,.08),
+            transparent 40%
+        );
+    z-index:-1;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:60px 24px;
+}
+
+.hero{
+    text-align:center;
+    margin-bottom:60px;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:#2c2c2c;
+    border:1px solid #444;
+    padding:10px 18px;
+    border-radius:999px;
+    margin-bottom:24px;
+    font-size:14px;
+    color:#ffb81c;
+    font-weight:600;
+}
+
+.hero h1{
+    font-size:64px;
+    font-weight:800;
+    letter-spacing:-2px;
+    margin-bottom:18px;
+    line-height:1;
+}
+
+.hero p{
+    max-width:760px;
+    margin:auto;
+    color:#d0d0d0;
+    font-size:18px;
+    line-height:1.7;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:28px;
+}
+
+.card{
+    background:rgba(35,35,35,.95);
+    border:1px solid #3a3a3a;
+    border-radius:24px;
+    padding:34px;
+    transition:.25s ease;
+    position:relative;
+    overflow:hidden;
+    backdrop-filter:blur(10px);
+}
+
+.card:hover{
+    transform:translateY(-6px);
+    border-color:#ffb81c;
+    box-shadow:0 16px 40px rgba(0,0,0,.45);
+}
+
+.card::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:4px;
+    background:#ffb81c;
+}
+
+.icon{
+    width:68px;
+    height:68px;
+    border-radius:18px;
+    background:#ffb81c;
+    color:#1f1f1f;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    font-weight:800;
+    margin-bottom:24px;
+}
+
+.card h2{
+    font-size:28px;
+    margin-bottom:14px;
+    font-weight:700;
+}
+
+.card p{
+    color:#c6c6c6;
+    line-height:1.7;
+    margin-bottom:30px;
+    min-height:90px;
+}
+
+.features{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:28px;
+}
+
+.feature-tag{
+    background:#2f2f2f;
+    border:1px solid #444;
+    color:#d8d8d8;
+    font-size:13px;
+    padding:8px 12px;
+    border-radius:999px;
+}
+
+.button{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    width:100%;
+    text-decoration:none;
+    background:#ffb81c;
+    color:#1e1e1e;
+    padding:16px;
+    border-radius:14px;
+    font-weight:700;
+    font-size:16px;
+    transition:.2s ease;
+}
+
+.button:hover{
+    background:#ffc94a;
+}
+
+.footer{
+    margin-top:70px;
+    text-align:center;
+    color:#999;
+    font-size:14px;
+}
+
+@media(max-width:768px){
+
+    .hero h1{
+        font-size:42px;
     }
 
-    body {
-      margin: 0;
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      background-color: var(--light-bg);
-      color: #333;
+    .hero p{
+        font-size:16px;
     }
 
-    /* HERO IMAGE */
-    .hero {
-      width: 100%;
-      height: 260px;
-      background-image: url('https://blog.perceptyx.com/hubfs/carhartt-bannerimage-2.jpg'); 
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .container{
+        padding:40px 20px;
     }
 
-    .hero-title {
-      background: rgba(0,0,0,0.55);
-      padding: 14px 28px;
-      border-radius: 6px;
-      color: #fff;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-size: 26px;
-      font-weight: bold;
+    .card{
+        padding:28px;
     }
+}
 
-    /* CONTAINER */
-    .container {
-      max-width: 540px;
-      background: #fff;
-      padding: 35px;
-      margin: 40px auto;
-      border-radius: 10px;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-      border-left: 6px solid var(--carhartt-brown);
-    }
-
-    h2 {
-      color: var(--carhartt-brown);
-      margin-bottom: 12px;
-      font-size: 26px;
-    }
-
-    p {
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    /* BUTTON */
-    button {
-      padding: 15px 24px;
-      background-color: var(--carhartt-brown);
-      border: none;
-      color: white;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 25px;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      transition: 0.2s ease-in-out;
-    }
-
-    button:hover {
-      background-color: var(--carhartt-brown-dark);
-    }
-
-    button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-
-    /* RESULT BOX */
-    #result {
-      margin-top: 25px;
-      font-size: 15px;
-      font-weight: bold;
-      padding: 14px;
-      border-radius: 8px;
-      display: none;
-    }
-
-    .success {
-      background-color: var(--success-bg);
-      color: var(--success-text);
-      border: 1px solid #7ac27d;
-    }
-
-    .error {
-      background-color: var(--error-bg);
-      color: var(--error-text);
-      border: 1px solid #f5c6c5;
-    }
-  </style>
+</style>
 </head>
+
 <body>
 
-<!-- HERO IMAGE -->
-<div class="hero">
-
-</div>
-
 <div class="container">
-  <h2>Unsubscribe</h2>
-  <p>If you no longer wish to receive email communications from Carhartt, you can unsubscribe below.</p>
 
-  <button id="unsubscribeBtn">Unsubscribe</button>
+    <div class="hero">
 
-  <p id="result"></p>
+        <div class="badge">
+            CARHARTT • SF FEATURE TESTING ENVIRONMENT
+        </div>
+
+        <h1>
+            Testing Portal
+        </h1>
+
+        <p>
+            Internal sandbox environment for validating customer experiences,
+            integrations, workflows, and UI features before production deployment.
+        </p>
+
+    </div>
+
+    <div class="cards">
+
+        <!-- WEB TO CASE -->
+
+        <div class="card">
+
+            <div class="icon">
+                W
+            </div>
+
+            <h2>
+                Web-to-Case Form
+            </h2>
+
+            <p>
+                Test customer support intake flows, Salesforce Web-to-Case
+                submission logic, validations, routing, and case creation experience.
+            </p>
+
+            <div class="features">
+
+                <div class="feature-tag">
+                    Salesforce
+                </div>
+
+                <div class="feature-tag">
+                    Web-to-Case
+                </div>
+
+                <div class="feature-tag">
+                    UI Testing
+                </div>
+
+                <div class="feature-tag">
+                    Customer Support
+                </div>
+
+            </div>
+
+            <a href="./ccg-web-form.html" class="button">
+                Launch Experience →
+            </a>
+
+        </div>
+
+        <!-- UNSUBSCRIBE -->
+
+        <div class="card">
+
+            <div class="icon">
+                U
+            </div>
+
+            <h2>
+                Unsubscribe from Survey
+            </h2>
+
+            <p>
+                Validate unsubscribe flows, email preference handling,
+                customer communication settings, and opt-out experiences.
+            </p>
+
+            <div class="features">
+
+                <div class="feature-tag">
+                    Marketing Cloud
+                </div>
+
+                <div class="feature-tag">
+                    Preferences
+                </div>
+
+                <div class="feature-tag">
+                    Email Opt-Out
+                </div>
+
+                <div class="feature-tag">
+                    UX Testing
+                </div>
+
+            </div>
+
+            <a href="./unsubscribe.html" class="button">
+                Launch Experience →
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        Carhartt Sandbox Experience Environment
+    </div>
+
 </div>
-
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const contactId = params.get("contactId");
-
-  const resultBox = document.getElementById("result");
-  const button = document.getElementById("unsubscribeBtn");
-
-  // ---------------------------------------
-  // VALIDATION: missing contactId
-  // ---------------------------------------
-  if (!contactId) {
-    showError(
-      "We could not verify your unsubscribe request.<br>" +
-      "Please open the link directly from your email."
-    );
-    button.disabled = true;
-  }
-
-  function showError(message) {
-    resultBox.style.display = "block";
-    resultBox.className = "error";
-    resultBox.innerHTML = message;
-  }
-
-  function showSuccess(message) {
-    resultBox.style.display = "block";
-    resultBox.className = "success";
-    resultBox.innerHTML = message;
-  }
-
-  // ---------------------------------------
-  // UNSUBSCRIBE REQUEST
-  // ---------------------------------------
-  button.addEventListener("click", async () => {
-    try {
-      let response = await fetch(
-        "https://YOUR-SF-DOMAIN.force.com/services/apexrest/unsubscribe",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ contactId })
-        }
-      );
-
-      if (response.ok) {
-        showSuccess("You have been successfully unsubscribed.");
-        button.style.display = "none";
-      } else {
-        showError("There was an error processing your request.");
-      }
-    } catch (e) {
-      showError("Network error. Please try again later.");
-    }
-  });
-</script>
 
 </body>
 </html>
